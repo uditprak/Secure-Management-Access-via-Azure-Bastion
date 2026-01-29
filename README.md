@@ -61,6 +61,7 @@ Azure Bastion provides full visibility into remote sessions to maintain a high-s
 
 This diagram illustrates the secure flow of traffic through Azure Bastion:
 
+```text
 +-----------------------------------------------------------------------+
 |                         Azure Cloud (Region)                          |
 |                                                                       |
@@ -83,6 +84,7 @@ This diagram illustrates the secure flow of traffic through Azure Bastion:
                     |                                 |
              [ Administrator ]                 [ Public Internet ]
               (Secure Access)                   (Potential Attack)
+
 Traffic Flow Logic:
 
 Request: Administrator connects to the Azure Portal via SSL (Port 443).
