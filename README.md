@@ -54,3 +54,41 @@ Azure Bastion provides full visibility into remote sessions to maintain a high-s
 | **Shareable Links** | ❌ No | ✅ Yes |
 | **Session Monitoring** | ✅ Supported | ✅ Supported |
 | **IP-Based Connection** | ❌ No | ✅ Yes |
+
+---
+
+## 🏗️ Architecture Diagram
+
+This diagram illustrates the secure flow of traffic through Azure Bastion:
+
++-----------------------------------------------------------------------+
+|                         Azure Cloud (Region)                          |
+|                                                                       |
+|    +-------------------------------------------------------------+    |
+|    |                      Virtual Network (VNet)                 |    |
+|    |                                                             |    |
+|    |  +------------------------+        +-----------------------+ |    |
+|    |  |  AzureBastionSubnet    |        |    Workload Subnet    | |    |
+|    |  |                        |        |                       | |    |
+|    |  |   [ Azure Bastion ] <-----------|-----> [ Target VM ]   | |    |
+|    |  |      (Service)         |  RDP   |      (No Pub IP)      | |    |
+|    |  +-----------^------------+  3389  +-----------^-----------+ |    |
+|    |              |                                 |             |    |
+|    +--------------|---------------------------------|-------------+    |
+|                   |                                 |                  |
+|           HTTPS (Port 443)                  Traffic Blocked            |
+|                   |                         (NSG Inbound)              |
+|                   |                                 X                  |
++-------------------|---------------------------------|------------------+
+                    |                                 |
+             [ Administrator ]                 [ Public Internet ]
+              (Secure Access)                   (Potential Attack)
+Traffic Flow Logic:
+
+Request: Administrator connects to the Azure Portal via SSL (Port 443).
+
+Authentication: After Entra ID authentication, the Bastion service initiates a session.
+
+Internal Connection: Bastion connects to the Target VM using its Private IP over Port 3389.
+
+Security: The Target VM has No Public IP, and its Network Security Group (NSG) is configured to deny all inbound traffic from the internet, allowing only the Bastion service.
