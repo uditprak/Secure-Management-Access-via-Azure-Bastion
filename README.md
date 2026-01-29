@@ -14,33 +14,43 @@ This lab demonstrates how to secure administrative access to an Azure Virtual Ma
 - Deploying Azure Bastion on a dedicated subnet.
 - Understanding why Public IPs are a security risk for management ports.
 
-Azure Bastion Features
-1. Bastion Shareable Links ("Guest Access")
-Concept: Allows users to connect to a specific VM without having access to the Azure Portal.
+## 🚀 Advanced Azure Bastion Concepts
 
-How it works: An administrator generates a unique URL for a target VM.
+After successfully implementing the basic deployment, I explored enterprise-level features of Azure Bastion (Standard Tier) that enhance security and administrative control.
 
-Security Use Case: You can provide temporary access to external vendors or contractors. They only need the link and the VM credentials—no Azure account or IAM permissions required.
+### 1. Secure Access & Connectivity Features
 
-Note: This is an exclusive feature of the Standard Tier.
+| Feature | Description | Business Value |
+| :--- | :--- | :--- |
+| **Shareable Links** | Provides a unique URL to access a VM without requiring the Azure Portal. | Secure temporary access for external vendors/contractors. |
+| **File Transfer** | Enables browser-based file upload and download functionality. | Allows patching and script deployment without a Public IP. |
+| **Native Client** | Allows using local tools like `mstsc` (RDP) or Terminal (SSH). | Improved performance and familiar UI for power users. |
 
-2. Centralized Bastion via VNet Peering
-Architecture: Instead of deploying a Bastion host in every Virtual Network (which is expensive), you deploy a single Bastion in a Hub VNet.
+### 2. Enterprise Architecture: Centralized Management
+In a production environment, deploying a Bastion in every VNet is not cost-effective.
+* **Hub-and-Spoke Model:** A single Bastion host is deployed in a central "Hub" VNet.
+* **VNet Peering:** Using peering, this central Bastion can manage VMs in all connected "Spoke" VNets.
+* **Benefit:** Reduces costs and provides a single, hardened entry point for all administrative traffic.
 
-Functionality: By using VNet Peering, this single Bastion can reach and manage VMs located in multiple Spoke VNets.
 
-Benefit: Significant cost savings and centralized management of all administrative traffic.
 
-3. Session Monitoring & Management ("The Admin CCTV")
-Monitoring: Provides real-time visibility into all active RDP and SSH sessions currently running through the Bastion host.
+### 3. Monitoring & Governance (The "Admin CCTV")
+Azure Bastion provides full visibility into remote sessions to maintain a high-security posture:
+* **Real-time Monitoring:** View active RDP/SSH sessions, including user details and session start times.
+* **Session Termination:** Administrators can manually disconnect or "kill" any active session if unauthorized activity is suspected.
+* **Audit Logs:** Integration with Azure Monitor to track who accessed which VM and when.
 
-Administrative Control: Admins can view session start times, user info, and IP addresses.
 
-Security Action: You have the power to disconnect (kill) any active session immediately if suspicious or unauthorized activity is detected.
 
-4. Advanced File Transfer
-Limitation (Basic Tier): Only supports simple text copy-pasting via the clipboard.
+---
 
-Capability (Standard Tier): Enables full File Upload and Download functionality through the web-based portal.
+### 🛡️ Comparison: Basic vs. Standard Tier
 
-Use Case: Essential for transferring scripts, patches, or .exe installers directly into the VM from your local machine.
+| Capability | Basic Tier | Standard Tier |
+| :--- | :--- | :--- |
+| **RDP/SSH Connectivity** | ✅ Supported | ✅ Supported |
+| **Max Instances** | 2 Fixed | Up to 50 (Scaling) |
+| **File Transfer** | ❌ No | ✅ Yes |
+| **Shareable Links** | ❌ No | ✅ Yes |
+| **Session Monitoring** | ✅ Supported | ✅ Supported |
+| **IP-Based Connection** | ❌ No | ✅ Yes |
