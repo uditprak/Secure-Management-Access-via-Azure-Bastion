@@ -85,12 +85,12 @@ This diagram illustrates the secure flow of traffic through Azure Bastion:
              [ Administrator ]                 [ Public Internet ]
               (Secure Access)                   (Potential Attack)
 
-Traffic Flow Logic:
-
+```
+📝 Traffic Flow Logic:
 Request: Administrator connects to the Azure Portal via SSL (Port 443).
 
 Authentication: After Entra ID authentication, the Bastion service initiates a session.
 
 Internal Connection: Bastion connects to the Target VM using its Private IP over Port 3389.
 
-Security: The Target VM has No Public IP, and its Network Security Group (NSG) is configured to deny all inbound traffic from the internet, allowing only the Bastion service.
+Security: The Target VM has No Public IP, and its Network Security Group (NSG) is configured to deny all inbound traffic from the internet.
