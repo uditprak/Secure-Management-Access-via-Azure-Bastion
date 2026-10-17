@@ -10,13 +10,13 @@ This lab demonstrates how to secure administrative access to an Azure Virtual Ma
 - **Security:** RDP over HTTPS via Bastion.
 
 ## 🚀 Key Learning
-- Configuration of Hub-and-Spoke ready VNet.
+- A VNet laid out so it can later become the hub of a Hub-and-Spoke design.
 - Deploying Azure Bastion on a dedicated subnet.
 - Understanding why Public IPs are a security risk for management ports.
 
 ## 🚀 Advanced Azure Bastion Concepts
 
-After successfully implementing the basic deployment, I explored enterprise-level features of Azure Bastion (Standard Tier) that enhance security and administrative control.
+After the Basic-tier deployment above, I studied Standard-tier and enterprise features from Microsoft documentation. The sections below are design notes, not deployed in this lab.
 
 ### 1. Secure Access & Connectivity Features
 
